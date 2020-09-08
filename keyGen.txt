@@ -1,0 +1,29 @@
+// Note: "What is your first and last name?" value should be hostname (CN) where rabbitmq will be connected with. Rest of the values can be of anything of your choice.
+//NOTE: Apart from (What is your first and last name?) for the first key gen rest of the values can be anything  
+//Keystore for rabbitmq , Add your domain name in common name so that host verification goes through
+keytool -genkey -alias rabbit -keyalg RSA -keystore rabbit-keystore.jks
+//Generate a certificate to add into truststore
+keytool -export -alias rabbit -keystore rabbit-keystore.jks -file rabbit-keystore.crt
+
+//Convert the jks files to p12 and further convert to pem for rabbitmq config
+keytool -importkeystore -srckeystore rabbit-keystore.jks  -destkeystore rabbit-server.p12  -deststoretype PKCS12  -srcalias rabbit 
+openssl pkcs12 -in rabbit-server.p12  -nokeys -out rabbit-public.pem
+openssl pkcs12 -in rabbit-server.p12  -nodes -nocerts -out rabbit-private.pem
+
+//Generate a keystore for client application in jks format
+keytool -genkey -alias iot -keyalg RSA -keystore iot-keystore.jks
+//Generate a certificate to add into truststore
+keytool -export -alias iot -keystore iot-keystore.jks -file iot-keystore.crt
+
+//Create a truststore for client and add the rabbitmq certificate generated previosuly
+keytool -import -alias rabbit -keystore iot-truststore.jks -file rabbit-keystore.crt
+
+//Convert the keystore file of client from jks to p12 and later to pem so that it can be used in node and the public key can be added to truststore directory of rabbitmq
+keytool -importkeystore -srckeystore iot-keystore.jks  -destkeystore iot-server.p12  -deststoretype PKCS12  -srcalias iot 
+openssl pkcs12 -in iot-server.p12  -nokeys -out iot-public.pem
+openssl pkcs12 -in iot-server.p12  -nodes -nocerts -out iot-private.pem
+
+
+//Convert the truststore file of client from jks to p12 and later to pem to be used in node.
+keytool -importkeystore -srckeystore iot-truststore.jks  -destkeystore iot-truststore.p12  -deststoretype PKCS12 
+openssl pkcs12 -in iot-truststore.p12 -out iot-truststore.pem
