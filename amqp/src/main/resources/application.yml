@@ -1,0 +1,27 @@
+logging.level.root: DEBUG
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: queue.log.messages
+          binder: local_rabbit
+        output:
+          destination: queue.pretty.log.messages
+          binder: local_rabbit
+      binders:
+        local_rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                addresses:  amqps://admin:admin123@prat:5671
+                virtual-host: /
+                ssl:
+                  enabled: true
+                  key-store: file:/Users/nischal/Documents/keys2/iot-server.p12
+                  key-store-password: prat123
+                  trust-store: file:/Users/nischal/Documents/keys2/iot-truststore.jks
+                  trust-store-password: prat123
+                  verify-hostname: true
+                  validate-server-certificate: true
