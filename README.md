@@ -1,6 +1,10 @@
 # rabbitmq2wayssl
 This Document explains a way to enable your rabbitmq server in 2 way ssl using self signed keys without any Certifying authority(CA) keys 
 
+Version tested on 
+RabbitMQ 3.8.8
+Erlang 23.0.3
+
 rabbitmq application can be installed using any of the options mentioned in here 
 https://www.rabbitmq.com/download.html
 
