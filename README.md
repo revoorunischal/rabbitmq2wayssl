@@ -1,9 +1,9 @@
 # rabbitmq2wayssl
 This Document explains a way to enable your rabbitmq server in 2 way ssl using self signed keys without any Certifying authority(CA) keys 
 
-Version tested on 
+**Version tested on 
 RabbitMQ 3.8.8
-Erlang 23.0.3
+Erlang 23.0.3**
 
 rabbitmq application can be installed using any of the options mentioned in here 
 https://www.rabbitmq.com/download.html
@@ -36,4 +36,4 @@ ssl_options.fail_if_no_peer_cert = true // Informing rabbitmq to stop accepting 
 I have attached a set of keys which can be tested in a tar file. Please raise an issue if you face any issue.
 
 
-P.S rabbitmq_trust_store fails if started as a brew services with eperm issue but will work fine by starting in command line 
+**P.S rabbitmq_trust_store fails if started as a brew services with eperm issue but will work fine by starting in command line **
